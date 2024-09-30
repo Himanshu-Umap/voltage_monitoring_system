@@ -1,3 +1,8 @@
+//References used for learning:
+//https://docs.espressif.com/projects/esp-idf/en/v4.1.1/api-reference/peripherals/adc.html
+//https://docs.espressif.com/projects/esp-idf/en/v5.3.1/esp32/api-reference/peripherals/adc_oneshot.html
+//https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/adc_oneshot.html#_CPPv416adc_oneshot_read25adc_oneshot_unit_handle_t13adc_channel_tPi
+
 #include <stdio.h>
 #include "driver/adc.h"
 #include "driver/adc_oneshot.h"
@@ -7,7 +12,6 @@
 #define ADC_CHANNEL ADC1_CHANNEL_0 //ESP DEV-KIT V1
 #define ADC_WIDTH ADC_WIDTH_BIT_12 // 12 BIT Resolution
 #define ADC_ATTEN ADV_ATTEN_DB_11
-
 
 // Tag for debugging
 static const char *TAG = "Voltage_Monitor_ADC_ONE_SHOT";
@@ -49,4 +53,7 @@ void app_main(void)
         // Delay for 1 second before reading again
         vTaskDelay(pdMS_TO_TICKS(1000));  // 1000ms delay
     }
+
+    // 4. Uninstall the ADC driver after use 
+    ESP_ERROR_CHECK(adc_oneshot_del_unit(adc1_handle));
 }
